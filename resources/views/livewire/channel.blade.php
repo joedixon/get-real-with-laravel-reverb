@@ -102,6 +102,10 @@ Alpine.data('channel', () => {
 
         init() {
             this.scrollPosition()
+            this.channel = Echo.channel('channels.{{ $channel->id }}')
+            this.channel.listen('MessageSent', (event) => {
+                this.$wire.messages.push(event.message)
+            })
         },
 
         send(message) {

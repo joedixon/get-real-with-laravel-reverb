@@ -25,40 +25,42 @@ $send = fn (string $message) => $this->channel->send(auth()->user(), $message);
         class="messages mb-4 flex h-full grow flex-col overflow-y-scroll"
         x-ref="messages"
     >
-        <span
-            class="mt-auto w-full py-4 text-center text-lg"
-            :class="{ 'mb-4 border-b': $wire.messages.length > 0 }"
-        >
-            This is the very beginning of the
-            <strong>{{ $channel->name }}</strong>
-            channel.
-        </span>
+        @if ($subscribed)
+            <span
+                class="mt-auto w-full py-4 text-center text-lg"
+                :class="{ 'mb-4 border-b': $wire.messages.length > 0 }"
+            >
+                This is the very beginning of the
+                <strong>{{ $channel->name }}</strong>
+                channel.
+            </span>
 
-        <template x-for="message in $wire.messages">
-            <div class="flex gap-x-2">
-                <img
-                    :src="message.user.avatar"
-                    :alt="message.user.name"
-                    class="h-10 w-10 rounded-md"
-                />
+            <template x-for="message in $wire.messages">
+                <div class="flex gap-x-2">
+                    <img
+                        :src="message.user.avatar"
+                        :alt="message.user.name"
+                        class="h-10 w-10 rounded-md"
+                    />
 
-                <div>
-                    <div class="flex items-center gap-x-2">
-                        <span
-                            class="text-lg font-bold"
-                            x-text="message.user.name"
-                        ></span>
+                    <div>
+                        <div class="flex items-center gap-x-2">
+                            <span
+                                class="text-lg font-bold"
+                                x-text="message.user.name"
+                            ></span>
 
-                        <time
-                            class="text-sm text-gray-600"
-                            x-text="message.sent_at"
-                        ></time>
+                            <time
+                                class="text-sm text-gray-600"
+                                x-text="message.sent_at"
+                            ></time>
+                        </div>
+
+                        <div x-html="message.content" class="text-lg"></div>
                     </div>
-
-                    <div x-html="message.content" class="text-lg"></div>
                 </div>
-            </div>
-        </template>
+            </template>
+        @endif
     </div>
 
     <div

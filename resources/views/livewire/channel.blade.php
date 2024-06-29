@@ -120,6 +120,26 @@ Alpine.data('channel', () => {
                     this.$refs.messages.scrollHeight;
             });
         },
+
+        debouncer: null,
+
+        debounce(startCallback, stopCallback) {
+            if(this.debouncer) {
+                clearTimeout(this.debouncer)
+            }
+                
+            this.debouncer = setTimeout(() => {
+                this.isTyping = false
+
+                stopCallback();
+            }, 2000);
+
+            if (! this.isTyping) {
+                this.isTyping = true;
+
+                startCallback();
+            }
+        },
     }
 })
 </script>

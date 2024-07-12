@@ -162,6 +162,13 @@ Alpine.data('channels', () => {
         open: true,
 
         openChannelForm: false,
+
+        init() {
+            Echo.join('workspace')
+                .listen('.ChannelCreated', (event) => {
+                    this.$wire.channels.push(event.model)
+                })
+        }
     }
 });
 </script>
